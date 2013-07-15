@@ -1,4 +1,4 @@
-﻿function DrawShips() {
+function DrawShips() {
     $("table#ShipOutput").html("");
     $("dl#ships dd input[type=number]").each(function () {
         var shipInputBox = $(this);
@@ -38,16 +38,22 @@ function HandleOptionalParams() {
     }
     switch (logoPos) {
         case "Left":
+            $("#holder").show();
             $("#holder").css("float", "left");
             $("#holder").css("margin", "0 0 0 155px");
             break;
         case "Right":
+            $("#holder").show();
             $("#holder").css("float", "right");
             $("#holder").css("margin", "0 155px 0 0");
             break;
         case "Middle":
+            $("#holder").show();
             $("#holder").css("float", "none");
             $("#holder").css("margin", "0 auto");
+            break;
+        case "None":
+            $("#holder").hide();
             break;
     }
 }
