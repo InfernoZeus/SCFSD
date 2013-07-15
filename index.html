@@ -7,20 +7,28 @@
     <style type="text/css">
         /****Page Markup*****/
         body{background-color:#D6D6D6;}
-        .ShipName{width:190px;font-family:Arial;font-size:18px;font-weight:bold;padding-right:15px;text-align:right;}
-        .ShipBox{margin:15px 0;}
-        .fLeft{float:left;}
-        .ShipContainer{display:inline-block;}
+        .ShipName{
+            font-family:Arial;
+            font-size:18px;
+            font-weight:bold;
+            padding-right:15px;
+            padding-left:45px;
+            text-align:right;
+            vertical-align: top;
+        }
+        #ShipOutput {
+            border-collapse: separate;
+            border-spacing: 0 15px;
+        }
+        .fLeft{float:left;} 
         dt{float:left;width:150px;clear:left;}
         dd{float:left;}
         #InputFields{display:inline-block;}
         #Outputs{margin-top:80px;}
-        .clear{clear:both;}
         /****Ship Shit****/
         .Ship
         {
             background-image:url(content/images/ships.png);
-            display:inline-block;
         }
         .M50
         {
@@ -100,10 +108,43 @@
             width:232px;
             background-position:0 -220px;
         }
-    #holder { border: 10px dashed #ccc; width: 150px; height: 150px; margin: 20px auto;}
-#holder.hover { border: 10px dashed #333; }
+        #holder { 
+            border: 10px dashed #ccc;
+            width: 150px;
+            height: 150px;
+            margin: 20px auto;
+        }
+        #holder:hover {
+            border: 10px dashed #333;
+        }
+        #logo {
+            width: 100%;
+            height: 170px;
+        }
     </style>
     <script type="text/javascript" src="content/scripts/DrawShips.js"></script>
+    <script type="text/javascript" src="content/scripts/html2canvas.js"></script>
+    <script type="text/javascript" src="content/scripts/canvas2image.js"></script>
+    <script type="text/javascript">
+        function EnableDownloadButton() {
+            $('#DownloadImageButton').removeAttr('disabled');
+        }
+
+        function DownloadImage() {
+            html2canvas( [ $('#ShipOutput').get(0) ], {
+                onrendered: function(canvas) {
+                    /* canvas is the actual canvas element,
+                       to append it to the page call for example
+                       document.body.appendChild( canvas );
+                    */
+                    var strData = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+                    $('#downloadLink').attr('href',strData);
+                    $('#downloadLink')[0].click();
+                },
+                background: "#D6D6D6"
+            });
+        }
+    </script>
 </head>
 <body>
     <div id="InputFields">
@@ -154,13 +195,16 @@
             <dd><input type="number" id="LogoHeight" /></dd>
         </dl>
         </fieldset>
-        <input type="button" value="Draw my page!" onclick="DrawShips()" />
+        <input type="button" value="Draw my page!" onclick="DrawShips(); EnableDownloadButton()" />
+        <input type="button" id="DownloadImageButton" value="Download as Image!" onclick="DownloadImage()" disabled="true" />
+        <a id="downloadLink" download="test.png" href="#" hidden="true"></a>
     </div>
     <div id="Outputs">
         <h2>Output</h2>
-        <div id="holder"></div> 
-        <div id="ShipOutput">
+        <div id="logo">
+            <div id="holder"></div> 
         </div>
+        <table id="ShipOutput"></table>
     </div>
 </body>
 </html>

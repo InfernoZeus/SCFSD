@@ -1,5 +1,5 @@
 ﻿function DrawShips() {
-    $("div#ShipOutput").html("");
+    $("table#ShipOutput").html("");
     $("dl#ships dd input[type=number]").each(function () {
         var shipInputBox = $(this);
         var shipName;
@@ -14,26 +14,19 @@
             OutputShip(shipName, numberToDraw, shipClassName);
         }
     });
-
-    //This will fix the width of the tool for users with small monitors
-    $(".ShipContainer").css("width", $(window).width() - 235 + "px");
-    $("div#ShipOutput div.ShipBox").each(function () {
-        $(this).find(".ShipName").css("height", $(this).height() + "px");
-    });
     HandleOptionalParams();
 }
 function OutputShip(shipName, numberToDraw, shipClassName) {
     var htmlWriter = [];
-    htmlWriter.push("<div class='ShipBox clear' id='" + shipClassName + "'>");
-    htmlWriter.push("<div class='ShipName fLeft'>" + shipName + "</div>");
-    htmlWriter.push("<div class='ShipContainer'>");
+    htmlWriter.push("<tr class='ShipBox' id='" + shipClassName + "'>");
+    htmlWriter.push("<td class='ShipName'>" + shipName + "</td>");
+    htmlWriter.push("<td class='ShipContainer'>");
     for (var i = 0; i < numberToDraw; i++) {
         htmlWriter.push("<div class='Ship fLeft " + shipClassName + "'></div>");
     }
-    htmlWriter.push("</div>");
-    htmlWriter.push('<div class="clear"></div>');
-    htmlWriter.push("</div>");
-    $("div#ShipOutput").append(htmlWriter.join(''));
+    htmlWriter.push("</td>");
+    htmlWriter.push("</tr>");
+    $("table#ShipOutput").append(htmlWriter.join(''));
 }
 function HandleOptionalParams() {
     var logoPos = $("select#LogoPosition").val();
@@ -54,7 +47,7 @@ function HandleOptionalParams() {
             break;
         case "Middle":
             $("#holder").css("float", "none");
-            $("#holder").css("margin", "0");
+            $("#holder").css("margin", "0 auto");
             break;
     }
 }
