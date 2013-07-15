@@ -104,6 +104,27 @@
 #holder.hover { border: 10px dashed #333; }
     </style>
     <script type="text/javascript" src="content/scripts/DrawShips.js"></script>
+    <script type="text/javascript" src="content/scripts/html2canvas.js"></script>
+    <script type="text/javascript" src="content/scripts/canvas2image.js"></script>
+    <script type="text/javascript">
+        function EnableDownloadButton() {
+            $('#DownloadImageButton').removeAttr('disabled');
+        }
+
+        function DownloadImage() {
+            html2canvas( [ $('#ShipOutput').get(0) ], {
+                onrendered: function(canvas) {
+                    /* canvas is the actual canvas element,
+                       to append it to the page call for example
+                       document.body.appendChild( canvas );
+                    */
+                    var strData = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+                    $('#downloadLink').attr('href',strData);
+                    $('#downloadLink')[0].click();
+                }
+            });
+        }
+    </script>
 </head>
 <body>
     <div id="InputFields">
@@ -154,7 +175,9 @@
             <dd><input type="number" id="LogoHeight" /></dd>
         </dl>
         </fieldset>
-        <input type="button" value="Draw my page!" onclick="DrawShips()" />
+        <input type="button" value="Draw my page!" onclick="DrawShips(); EnableDownloadButton()" />
+        <input type="button" id="DownloadImageButton" value="Download as Image!" onclick="DownloadImage()" disabled="true" />
+        <a id="downloadLink" download="test.png" href="#" hidden="true"></a>
     </div>
     <div id="Outputs">
         <h2>Output</h2>
