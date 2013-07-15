@@ -47,7 +47,7 @@ function HandleOptionalParams() {
             break;
         case "Middle":
             $("#holder").css("float", "none");
-            $("#holder").css("margin", "0");
+            $("#holder").css("margin", "0 auto");
             break;
     }
 }
