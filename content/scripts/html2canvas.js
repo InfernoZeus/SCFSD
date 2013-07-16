@@ -1013,6 +1013,8 @@ function h2cRenderContext(width, height) {
   };
 }
 _html2canvas.Parse = function (images, options) {
+  var top = window.pageYOffset || document.documentElement.scrollTop
+  var left = window.pageXOffset || document.documentElement.scrollLeft
   window.scroll(0,0);
 
   var element = (( options.elements === undefined ) ? document.body : options.elements[0]), // select body by default
@@ -2155,6 +2157,7 @@ _html2canvas.Parse = function (images, options) {
 
     stack.backgroundColor = getCSS(document.documentElement, "backgroundColor");
     body.removeChild(hidePseudoElements);
+    window.scroll(left, top);
     return stack;
   }
 
