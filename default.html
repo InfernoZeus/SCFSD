@@ -25,6 +25,10 @@
         dt{float:left;width:150px;clear:left;}
         dd{float:left;}
         #InputFields{display:inline-block;}
+        #DownloadImageLink {
+            cursor: default;
+            text-decoration: none;
+        }
         #Outputs{margin-top:80px;}
         /****Ship Shit****/
         .Ship
@@ -132,11 +136,12 @@
     <script type="text/javascript" src="content/scripts/DrawShips.js"></script>
     <script type="text/javascript" src="content/scripts/html2canvas.js"></script>
     <script type="text/javascript">
-        function EnableDownloadButton() {
+        function EnableDownloadLink() {
+            CreateImage();
             $('#DownloadImageButton').removeAttr('disabled');
         }
 
-        function DownloadImage() {
+        function CreateImage() {
             html2canvas( [ $('#ShipOutput').get(0) ], {
                 onrendered: function(canvas) {
                     /* canvas is the actual canvas element,
@@ -144,8 +149,7 @@
                        document.body.appendChild( canvas );
                     */
                     var strData = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
-                    $('#downloadLink').attr('href',strData);
-                    $('#downloadLink')[0].click();
+                    $('#DownloadImageLink').attr('href',strData);
                 },
                 background: "#D6D6D6"
             });
@@ -204,9 +208,9 @@
             <dd><input type="number" id="LogoHeight" /></dd>
         </dl>
         </fieldset>
-        <input type="button" value="Draw my page!" onclick="DrawShips(); EnableDownloadButton()" />
-        <input type="button" id="DownloadImageButton" value="Download as Image!" onclick="DownloadImage()" disabled="true" />
-        <a id="downloadLink" download="test.png" href="#" hidden="true">
+        <input type="button" value="Draw my page!" onclick="DrawShips(); EnableDownloadLink()" />
+        <a id="DownloadImageLink" download="test.png" href="#">
+            <input type="button" id="DownloadImageButton" value="Download as Image!" disabled="true" />
         </a>
     </div>
     <div id="Outputs">
