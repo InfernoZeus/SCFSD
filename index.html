@@ -136,9 +136,8 @@
     <script type="text/javascript" src="content/scripts/DrawShips.js"></script>
     <script type="text/javascript" src="content/scripts/html2canvas.js"></script>
     <script type="text/javascript">
-        function EnableDownloadLink() {
-            CreateImage();
-            $('#DownloadImageButton').removeAttr('disabled');
+        function SetDownloadLinkEnabled(newState) {
+            $('#DownloadImageButton').attr('disabled', !newState);
         }
 
         function CreateImage() {
@@ -148,7 +147,13 @@
                        to append it to the page call for example
                        document.body.appendChild( canvas );
                     */
-                    var strData = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+                    if (canvas.height == 0 || canvas.width == 0) {
+                        var strData = "#";
+                        SetDownloadLinkEnabled(false);
+                    } else {
+                        var strData = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+                        SetDownloadLinkEnabled(true);
+                    }
                     $('#DownloadImageLink').attr('href',strData);
                 },
                 background: "#D6D6D6"
@@ -208,7 +213,7 @@
             <dd><input type="number" id="LogoHeight" /></dd>
         </dl>
         </fieldset>
-        <input type="button" value="Draw my page!" onclick="DrawShips(); EnableDownloadLink()" />
+        <input type="button" value="Draw my page!" onclick="DrawShips(); CreateImage()" />
         <a id="DownloadImageLink" download="test.png" href="#">
             <input type="button" id="DownloadImageButton" value="Download as Image!" disabled="true" />
         </a>
