@@ -2827,9 +2827,10 @@ _html2canvas.Renderer.Canvas = function(options) {
         newCanvas = doc.createElement('canvas');
         newCanvas.width = bounds.width;
         newCanvas.height = bounds.height;
-        ctx = newCanvas.getContext("2d");
-
-        ctx.drawImage(canvas, bounds.left, bounds.top, bounds.width, bounds.height, 0, 0, bounds.width, bounds.height);
+        if (newCanvas.width != 0 && newCanvas.height != 0) {
+          ctx = newCanvas.getContext("2d");
+          ctx.drawImage(canvas, bounds.left, bounds.top, bounds.width, bounds.height, 0, 0, bounds.width, bounds.height);
+        }
         canvas = null;
         return newCanvas;
       }
